@@ -1,5 +1,11 @@
-function Appointment({ appointment }) {
-  const { name, phone, date, hour, note } = appointment;
+function Appointment({ appointment,setAppointment }) {
+  const { name, phone, date, hour, note, id } = appointment;
+
+
+  const deleteAppointment = () => {
+    console.log("Funcionando...");
+  }
+
   return (
     <div className="my-5 border-8 rounded-2xl p-5">
       <div className="flex justify-between mt-5 border-b-2">
@@ -25,10 +31,14 @@ function Appointment({ appointment }) {
       </p>
 
       <div className="mt-10 flex gap-10">
-        <button className="bg-red-600 text-white py-2 w-full" type="button">
+        <button
+          onClick={() => setAppointment(appointment)}
+          className="bg-blue-600 text-white py-2 w-full"
+          type="button"
+        >
           Editar
         </button>
-        <button className="bg-green-600 text-white py-2 w-full" type="button">
+        <button onClick={()=> deleteAppointment()} className="bg-red-600 text-white py-2 w-full" type="button">
           Eliminar
         </button>
       </div>

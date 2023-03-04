@@ -4,10 +4,10 @@ import Form from "./components/Form";
 import Result from "./components/Result";
 
 function App() {
-
   const [appointmentsArray, setAppointmentsArray] = useState([]);
+  const [appointment, setAppointment] = useState({});
 
-  console.log(appointmentsArray);
+  // console.log(appointmentObj);
 
   return (
     <>
@@ -17,8 +17,12 @@ function App() {
           <Form
             setAppointmentsArray={setAppointmentsArray}
             appointmentsArray={appointmentsArray}
+            appointment={appointment}
           />
-          <Result appointmentsArray={appointmentsArray}/>
+          <Result
+            appointmentsArray={appointmentsArray}
+            setAppointment={setAppointment}
+          />
         </div>
       </div>
     </>

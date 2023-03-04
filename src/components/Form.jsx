@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // ES6 Modules or TypeScript
 import Swal from "sweetalert2";
 
-function Form({ setAppointmentsArray, appointmentsArray }) {
+function Form({ setAppointmentsArray, appointmentsArray, appointment }) {
   // State para los campos del formualario
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -10,6 +10,17 @@ function Form({ setAppointmentsArray, appointmentsArray }) {
   const [hour, setHour] = useState("");
   const [note, setNote] = useState("");
 
+  useEffect(() => {
+    if (Object.keys(appointment).length > 0) {
+      setName(appointment.name);
+      setPhone(appointment.phone);
+      setDate(appointment.date);
+      setHour(appointment.hour);
+      setNote(appointment.note);
+    }
+  }, [appointment]);
+
+  // Generar un Id
   function generateId() {
     const random = Math.random().toString(36).slice(2);
     const date = Date.now().toString(36);
@@ -36,12 +47,25 @@ function Form({ setAppointmentsArray, appointmentsArray }) {
       date,
       hour,
       note,
-      id: generateId(),
     };
 
-    // Añadir objeto al areglo citas
-    setAppointmentsArray([...appointmentsArray, appointmentObj]);
+    if (appointment.id) {
+      // Añadir objeto al areglo citas
+      appointmentObj.id = appointment.id;
+      const appointmentUpdate = appointmentsArray.map((appointmentState) =>
+        appointmentState.id === appointment.id
+          ? appointmentObj
+          : appointmentState
+      );
 
+      setAppointmentsArray(appointmentUpdate);
+    } else {
+      appointmentObj.id = generateId();
+      // Añadir objeto al areglo citas
+      setAppointmentsArray([...appointmentsArray, appointmentObj]);
+    }
+
+    // Reiniciar los state
     setName("");
     setPhone("");
     setDate("");
