@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
 // ES6 Modules or TypeScript
 import Swal from "sweetalert2";
+// import {PlusIcon} from '@heroicons/react/24/solid'
 
-function Form({ setAppointmentsArray, appointmentsArray, appointment }) {
-  // State para los campos del formualario
+function Form({
+  setAppointmentsArray,
+  appointmentsArray,
+  appointment,
+  setAppointment,
+}) {
+  // State for the shield of the form
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [date, setDate] = useState("");
@@ -11,6 +17,7 @@ function Form({ setAppointmentsArray, appointmentsArray, appointment }) {
   const [note, setNote] = useState("");
 
   useEffect(() => {
+    //Object.keys : converts the keys of an object into an array
     if (Object.keys(appointment).length > 0) {
       setName(appointment.name);
       setPhone(appointment.phone);
@@ -20,27 +27,32 @@ function Form({ setAppointmentsArray, appointmentsArray, appointment }) {
     }
   }, [appointment]);
 
-  // Generar un Id
+  // Generate an id
   function generateId() {
     const random = Math.random().toString(36).slice(2);
     const date = Date.now().toString(36);
+
     return random + date;
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    // Validate Form
+    // includes: returns true or false if a condition is fulfilled.
     if ([name, phone, date, hour, note].includes("")) {
-      // Alerta
+      // Show Alerta
       Swal.fire({
         title: "Error!",
         text: "Todos los campos son obligatorios",
         icon: "error",
         confirmButtonText: "Aceptar",
       });
+
       return;
     }
 
-    // Objeto cita
+    // Objeto Appointment
     const appointmentObj = {
       name,
       phone,
@@ -50,22 +62,52 @@ function Form({ setAppointmentsArray, appointmentsArray, appointment }) {
     };
 
     if (appointment.id) {
-      // Añadir objeto al areglo citas
+      // Editing an appointment
+
+      // add id
       appointmentObj.id = appointment.id;
-      const appointmentUpdate = appointmentsArray.map((appointmentState) =>
+
+      
+      const updatedAppointmentArray = appointmentsArray.map((appointmentState) =>
         appointmentState.id === appointment.id
           ? appointmentObj
           : appointmentState
       );
 
-      setAppointmentsArray(appointmentUpdate);
+      // Update state
+      setAppointmentsArray(updatedAppointmentArray);
+
+      // Reset state
+      setAppointment("");
+
+      // Show Alert
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Cita actualizada con éxito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
+      /*add a new appointment*/
+
+      // Add id
       appointmentObj.id = generateId();
-      // Añadir objeto al areglo citas
+
+      // Add appointment to the array
       setAppointmentsArray([...appointmentsArray, appointmentObj]);
+
+      // Show Alert
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Cita añadida con éxito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
 
-    // Reiniciar los state
+    // Reset los state
     setName("");
     setPhone("");
     setDate("");
@@ -75,9 +117,9 @@ function Form({ setAppointmentsArray, appointmentsArray, appointment }) {
 
   return (
     <div className="lg:w-1/2 xl:w-2/5">
-      <h2 className="text-center font-black text-fuchsia-900 uppercase">
-        Añade tus <span className="">Citas</span>
-      </h2>
+      <h3 className="text-center my-5 font-black text-fuchsia-900 uppercase text-2xl">
+        Citas Pendientes
+      </h3>
       <form
         onSubmit={handleSubmit}
         className="shadow hover:shadow-lg shadow-black rounded-2xl p-5"
