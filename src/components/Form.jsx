@@ -67,11 +67,13 @@ function Form({
       // add id
       appointmentObj.id = appointment.id;
 
-      
-      const updatedAppointmentArray = appointmentsArray.map((appointmentState) =>
-        appointmentState.id === appointment.id
-          ? appointmentObj
-          : appointmentState
+      const updatedAppointmentArray = appointmentsArray.map(
+        (appointmentState) =>
+          appointmentState.id === appointment.id
+            ? //Return Update appointment array
+              appointmentObj
+            : // Return arrray original
+              appointmentState
       );
 
       // Update state
@@ -124,8 +126,10 @@ function Form({
         onSubmit={handleSubmit}
         className="shadow hover:shadow-lg shadow-black rounded-2xl p-5"
       >
-        <div className="mt-3">
-          <label htmlFor="name">Nombre:</label>
+        <div className="mt-3 ">
+          <label className="font-bold " htmlFor="name">
+            Nombre:
+          </label>
           <input
             id="name"
             className="block w-full p-1 border-solid border-2 border-black"
@@ -137,7 +141,9 @@ function Form({
         </div>
         {/* end of field */}
         <div className="mt-3">
-          <label htmlFor="phone">Teléfono:</label>
+          <label className="font-bold " htmlFor="phone">
+            Teléfono:
+          </label>
           <input
             id="phone"
             className="block w-full p-1 border-solid border-2 border-black"
@@ -149,7 +155,9 @@ function Form({
         </div>
         {/* end of field */}
         <div className="mt-3">
-          <label htmlFor="date">Fecha: </label>
+          <label htmlFor="date" className="font-bold ">
+            Fecha:{" "}
+          </label>
           <input
             id="date"
             className="block w-full p-1 border-solid border-2 border-black"
@@ -160,7 +168,9 @@ function Form({
         </div>
         {/* end of field */}
         <div className="mt-3">
-          <label htmlFor="hour">Hora:</label>
+          <label htmlFor="hour" className="font-bold ">
+            Hora:
+          </label>
           <input
             id="hour"
             className="block w-full p-1 border-solid border-2 border-black"
@@ -171,7 +181,9 @@ function Form({
         </div>
         {/* end of field */}
         <div className="mt-3">
-          <label htmlFor="note">Nota: </label>
+          <label htmlFor="note" className="font-bold ">
+            Nota:{" "}
+          </label>
           <textarea
             className="block w-full p-1 border-solid border-2 border-black"
             id="note"
@@ -184,7 +196,7 @@ function Form({
         {/* end of field */}
         <div className="mt-5">
           <button
-            className="bg-fuchsia-900 w-full text-white py-2"
+            className="bg-fuchsia-900 font-bold w-full text-white py-2 rounded-xl"
             type="submit"
           >
             Añadir Cita
